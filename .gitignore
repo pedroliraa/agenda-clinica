@@ -6,3 +6,4 @@ dist/
 .next/
 *.db
 EOF
+*.db-journal
