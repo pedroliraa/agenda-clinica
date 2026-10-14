@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { CreateAppointmentUseCase } from './application/create-appointment.use-case';
+import { FindAppointmentsByPhoneUseCase } from './application/find-appointments-by-phone.use-case';
 import { ListAppointmentsUseCase } from './application/list-appointments.use-case';
 import { ListAvailableSlotsUseCase } from './application/list-available-slots.use-case';
 import { APPOINTMENT_REPOSITORY } from './domain/appointment.repository';
@@ -18,6 +19,7 @@ import { SlotsController } from './presentation/slots.controller';
     ListAvailableSlotsUseCase,
     CreateAppointmentUseCase,
     ListAppointmentsUseCase,
+    FindAppointmentsByPhoneUseCase,
     { provide: SLOT_REPOSITORY, useClass: PrismaSlotRepository },
     { provide: APPOINTMENT_REPOSITORY, useClass: PrismaAppointmentRepository },
   ],

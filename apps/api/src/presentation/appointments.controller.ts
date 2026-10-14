@@ -1,21 +1,23 @@
 import {
-  BadRequestException,
-  Body,
-  ConflictException,
-  Controller,
-  Get,
-  NotFoundException,
-  Post,
+    BadRequestException,
+    Body,
+    ConflictException,
+    Controller,
+    Get,
+    NotFoundException,
+    Post,
+    Query
 } from '@nestjs/common';
 import {
-  CreateAppointmentInput,
-  CreateAppointmentUseCase,
+    CreateAppointmentInput,
+    CreateAppointmentUseCase,
 } from '../application/create-appointment.use-case';
 import { ListAppointmentsUseCase } from '../application/list-appointments.use-case';
+import { FindAppointmentsByPhoneUseCase } from '../application/find-appointments-by-phone.use-case';
 import {
-  InvalidAppointmentDataError,
-  SlotNotFoundError,
-  SlotUnavailableError,
+    InvalidAppointmentDataError,
+    SlotNotFoundError,
+    SlotUnavailableError,
 } from '../domain/appointment.errors';
 
 @Controller('appointments')
@@ -23,7 +25,20 @@ export class AppointmentsController {
     constructor(
         private readonly createAppointment: CreateAppointmentUseCase,
         private readonly listAppointments: ListAppointmentsUseCase,
+        private readonly findByPhone: FindAppointmentsByPhoneUseCase,
     ) { }
+
+    @Get('by-phone')
+    async byPhone(@Query('phone') phone?: string) {
+        try {
+            return await this.findByPhone.execute(phone);
+        } catch (error) {
+            if (error instanceof InvalidAppointmentDataError) {
+                throw new BadRequestException(error.message);
+            }
+            throw error;
+        }
+    }
 
     @Get()
     list() {

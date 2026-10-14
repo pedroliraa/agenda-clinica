@@ -44,4 +44,20 @@ export class PrismaAppointmentRepository implements AppointmentRepository {
             patientPhone: row.patientPhone,
         }));
     }
+
+    async listUpcomingByPhone(phone: string): Promise<AppointmentDetails[]> {
+        const rows = await this.prisma.appointment.findMany({
+            where: { patientPhone: phone, slot: { startsAt: { gte: new Date() } } },
+            include: { slot: { include: { examType: true } } },
+            orderBy: { slot: { startsAt: 'asc' } },
+        });
+
+        return rows.map((row) => ({
+            id: row.id,
+            startsAt: row.slot.startsAt,
+            examTypeName: row.slot.examType.name,
+            patientName: row.patientName,
+            patientPhone: row.patientPhone,
+        }));
+    }
 }

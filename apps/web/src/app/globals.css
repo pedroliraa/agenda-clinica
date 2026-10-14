@@ -34,3 +34,6 @@ button.primary:disabled { background: #9aa5b1; cursor: not-allowed; }
 .alert.error { background: #fdecea; color: #8a1c14; }
 .alert.success { background: #e3f5ec; color: #1f5a3d; }
 .muted { color: #7b8794; font-size: 0.9rem; }
+.nav { display: flex; gap: 20px; justify-content: center; padding: 14px 16px; background: #14313d; }
+.nav a { color: #e4eef2; text-decoration: none; font-size: 0.95rem; }
+.nav a:hover { text-decoration: underline; }
