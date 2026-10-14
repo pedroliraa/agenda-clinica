@@ -57,3 +57,11 @@ export async function createAppointment(input: NewAppointmentInput) {
     }),
   );
 }
+
+export async function fetchAppointmentsByPhone(phone: string): Promise<AppointmentDetails[]> {
+  return handle<AppointmentDetails[]>(
+    await fetch(`${API_URL}/appointments/by-phone?phone=${encodeURIComponent(phone)}`, {
+      cache: 'no-store',
+    }),
+  );
+}

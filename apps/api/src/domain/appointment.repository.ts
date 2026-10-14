@@ -18,12 +18,9 @@ export interface AppointmentDetails {
 }
 
 export interface AppointmentRepository {
-  /**
-   * Deve lançar SlotNotFoundError se o horário não existir
-   * e SlotUnavailableError se já estiver reservado.
-   */
   create(data: NewAppointment): Promise<Appointment>;
   listUpcoming(): Promise<AppointmentDetails[]>;
+  listUpcomingByPhone(phone: string): Promise<AppointmentDetails[]>;
 }
 
 export const APPOINTMENT_REPOSITORY = Symbol('AppointmentRepository');
