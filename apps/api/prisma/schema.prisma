@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Clinic {
+  id        String     @id @default(uuid())
+  name      String
+  examTypes ExamType[]
+  slots     Slot[]
+}
+
+model ExamType {
+  id              String @id @default(uuid())
+  name            String
+  durationMinutes Int
+  clinicId        String
+  clinic          Clinic @relation(fields: [clinicId], references: [id])
+  slots           Slot[]
+}
+
+model Slot {
+  id          String       @id @default(uuid())
+  startsAt    DateTime
+  clinicId    String
+  examTypeId  String
+  clinic      Clinic       @relation(fields: [clinicId], references: [id])
+  examType    ExamType     @relation(fields: [examTypeId], references: [id])
+  appointment Appointment?
+}
+
+model Appointment {
+  id           String   @id @default(uuid())
+  slotId       String   @unique
+  slot         Slot     @relation(fields: [slotId], references: [id])
+  patientName  String
+  patientPhone String
+  createdAt    DateTime @default(now())
+}
